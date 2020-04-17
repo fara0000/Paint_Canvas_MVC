@@ -1,11 +1,13 @@
-let Model = require("./Model.js");
-let View = require("./View.js");
-let Controller = require("./Controller.js");
+const Model = require('./Model.js');
+const View = require('./View.js');
+const Controller = require('./Controller.js');
 
-function initProject() {
-    const model = new Model();
-    const view = new View();
+function initProject() { 
+    const view = new View(); 
+    const model = new Model(); 
     const controller = new Controller(model, view);
+
+    controller.init();
 }
 
-initProject()
+initProject();

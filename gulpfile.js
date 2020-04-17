@@ -1,3 +1,4 @@
+const sass = require('gulp-sass');
 const browserify = require('browserify');
 const { watch, series, src, dest } = require('gulp');
 const source = require('vinyl-source-stream');
@@ -6,7 +7,7 @@ const browserSync = require('browser-sync').create();
 
 function jsHandle (cb) {
     browserify('./src/index.js').bundle()
-        .pipe(source('build.js'))
+        .pipe(source('index.js'))
         .pipe(dest('dest', { overwrite: true }))
         .pipe(browserSync.stream());
 
@@ -22,7 +23,8 @@ function htmlHandle (cb) {
 }
 
 function cssHandle (cb) {
-    src('src/**/*.css')
+    src('src/*.scss')
+        .pipe(sass())
         .pipe(concat('styles.css'))
         .pipe(dest('dest'))
         .pipe(browserSync.stream());
@@ -53,7 +55,7 @@ function watchFiles() {
         htmlHandle,
     ).on('change', browserSync.reload);
     watch(
-        'src/**/*.css',
+        'src/*.scss',
         watchOptions,
         cssHandle,
     ).on('change', browserSync.reload);
